@@ -1,2 +1,2 @@
 # Trabalho 1 de Sistemas de Informação Distribuídos
-Flask
+Aplicação Python utilizando Flask e MongoDB?
