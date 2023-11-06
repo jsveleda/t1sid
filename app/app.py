@@ -44,9 +44,9 @@ def delete(key):
 # List all keys
 @app.route('/list_keys', methods=['GET'])
 def list_keys():
-    #keys = r.keys('*')  # Get all keys matching the pattern (in this case, all keys
-    keys = [key.decode('utf-8') for key in r.keys('*')]  # Decode bytes to strings
-    return jsonify(keys)
+    keys = [key.decode('utf-8') for key in r.keys('*')]
+    key_value_pairs = {key: r.get(key).decode('utf-8') for key in keys}
+    return jsonify(key_value_pairs)
 
 if __name__ == '__main__':
     app.run(debug=True)
