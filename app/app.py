@@ -1,5 +1,6 @@
 import redis
 from flask import Flask, request, jsonify
+from data_generator import DataGenerator
 
 app = Flask(__name__)
 
@@ -47,6 +48,17 @@ def list_keys():
     keys = [key.decode('utf-8') for key in r.keys('*')]
     key_value_pairs = {key: r.get(key).decode('utf-8') for key in keys}
     return jsonify(key_value_pairs)
+
+# Calls generator to insert new data
+@app.route('/insert_data', methods=['POST'])
+def insert_data():
+    data_gen = DataGenerator()
+    data_gen.generate_data(5000)
+    
+    for key, value in data_gen.data:
+        r.set(key, value)
+    
+    return jsonify({'message': 'Data inserted successfully'})
 
 if __name__ == '__main__':
     app.run(debug = True)
