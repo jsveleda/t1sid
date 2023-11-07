@@ -6,9 +6,9 @@ app = Flask(__name__)
 
 # Connect to Redis
 r = redis.Redis(
-  host='redis-12362.c308.sa-east-1-1.ec2.cloud.redislabs.com',
-  port=12362,
-  password='QOTc6vr7yZETVo2l1YBVmv8O0qxqNwf8')
+  host='redis-11288.c308.sa-east-1-1.ec2.cloud.redislabs.com',
+  port=11288,
+  password='vVocxS1PGAx4Zlr8dVix8IyybHDqaCwt')
 
 @app.route('/')
 def hello_world():
