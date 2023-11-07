@@ -18,7 +18,7 @@ import time
 app = Flask(__name__)
 
 # Função de wrapper para medir o tempo de execução
-def medir_tempo_de_execucao(route_function):
+def measure_execution_time(route_function):
     def wrapper(*args, **kwargs):
         start_time = time.time()
         result = route_function(*args, **kwargs)
@@ -32,20 +32,20 @@ def medir_tempo_de_execucao(route_function):
 
 
 @app.route('/')
-@medir_tempo_de_execucao
+@measure_execution_time
 def hello_world():
     return 'Hello, World!'
 
 # Create
 @app.route('/create/<key>/<value>', methods=['POST'])
-@medir_tempo_de_execucao
+@measure_execution_time
 def create(key, value):
     r.set(key, value)
     return jsonify({'message': 'Key-Value pair created successfully'})
 
 # Read
 @app.route('/read/<key>', methods=['GET'])
-@medir_tempo_de_execucao
+@measure_execution_time
 def read(key):
     value = r.get(key)
     if value is None:
@@ -54,7 +54,7 @@ def read(key):
 
 # Update
 @app.route('/update/<key>/<value>', methods=['PUT'])
-@medir_tempo_de_execucao
+@measure_execution_time
 def update(key, value):
     if r.exists(key):
         r.set(key, value)
@@ -64,7 +64,7 @@ def update(key, value):
 
 # Delete
 @app.route('/delete/<key>', methods=['DELETE'])
-@medir_tempo_de_execucao
+@measure_execution_time
 def delete(key):
     if r.exists(key):
         r.delete(key)
@@ -74,7 +74,7 @@ def delete(key):
     
 # List all keys
 @app.route('/list_keys', methods=['GET'])
-@medir_tempo_de_execucao
+@measure_execution_time
 def list_keys():
     keys = [key.decode('utf-8') for key in r.keys('*')]
     key_value_pairs = {key: r.get(key).decode('utf-8') for key in keys}
@@ -82,7 +82,7 @@ def list_keys():
 
 # Calls generator to insert new data
 @app.route('/insert_data')
-@medir_tempo_de_execucao
+@measure_execution_time
 def insert_data():
     data_gen = DataGenerator()
     data_gen.generate_data(100)
@@ -110,7 +110,7 @@ def write_thread():
 
 # Route to start the threads
 @app.route('/start_threads', methods=['POST'])
-@medir_tempo_de_execucao
+@measure_execution_time
 def start_threads():
     num_threads = 100  # You can adjust this number as needed
     num_read_threads = 70  # Adjust the percentage of read threads as needed
