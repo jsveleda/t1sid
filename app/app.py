@@ -8,9 +8,9 @@ app = Flask(__name__)
 
 # Connect to Redis
 r = redis.Redis(
-  host='redis-11288.c308.sa-east-1-1.ec2.cloud.redislabs.com',
-  port=11288,
-  password='vVocxS1PGAx4Zlr8dVix8IyybHDqaCwt')
+  host='redis-12688.c308.sa-east-1-1.ec2.cloud.redislabs.com',
+  port=12688,
+  password='HN92Lbezme49w8AuWLmzPttQHQTWFSqP')
 
 from flask import Flask
 import time
@@ -91,46 +91,6 @@ def insert_data():
         r.set(key, value)
     
     return jsonify({'message': 'Data inserted successfully'})
-
-# Function to create a thread for reading
-def read_thread():
-    key = f'key_{random.randint(0, 4999)}'
-    value = r.get(key)
-    if value is not None:
-        return {key: value.decode('utf-8')}
-    return {'error': 'Key not found'}
-
-# Function to create a thread for writing
-def write_thread():
-    data_gen = DataGenerator()
-    data_gen.generate_data(1)
-    key, value = data_gen.data[0]
-    r.set(key, value)
-    return {'message': 'Key-Value pair created successfully'}
-
-# Route to start the threads
-@app.route('/start_threads', methods=['POST'])
-@measure_execution_time
-def start_threads():
-    num_threads = 100  # You can adjust this number as needed
-    num_read_threads = 70  # Adjust the percentage of read threads as needed
-
-    threads = []
-    for _ in range(num_threads):
-        if _ < num_read_threads:
-            thread = threading.Thread(target=read_thread)
-        else:
-            thread = threading.Thread(target=write_thread)
-        threads.append(thread)
-
-    for thread in threads:
-        thread.start()
-
-    for thread in threads:
-        thread.join()
-
-    return jsonify({'message': 'Threads executed'})
-
 
 if __name__ == '__main__':
     app.run(debug = True)
