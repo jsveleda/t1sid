@@ -6,12 +6,12 @@ class VirtualUser(HttpUser):
 
     @task(25)
     def access_read_route(self):
-        key = f'key_{random.randint(0, 9999)}' 
+        key = f'key_{random.randint(0, 2000)}' 
         self.client.get(f"/read/{key}")
 
     @task(75)
     def acess_create_route(self):
-        key = f'key_{random.randint(0, 9999)}' 
-        value = str(random.randint(0, 9999))
+        key = f'key_{random.randint(0, 2000)}' 
+        value = str(random.randint(0, 2000))
         self.client.post(f"/create/{key}/{value}")
 

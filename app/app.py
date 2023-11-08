@@ -85,7 +85,7 @@ def list_keys():
 @measure_execution_time
 def insert_data():
     data_gen = DataGenerator()
-    data_gen.generate_data(100)
+    data_gen.generate_data(2000)
     
     for key, value in data_gen.data:
         r.set(key, value)
