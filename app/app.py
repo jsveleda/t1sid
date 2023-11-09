@@ -1,16 +1,15 @@
 import redis
-import random
-import threading
 from flask import Flask, request, jsonify
 from data_generator import DataGenerator
 
 app = Flask(__name__)
 
 # Connect to Redis
-r = redis.Redis(
-  host='redis-12688.c308.sa-east-1-1.ec2.cloud.redislabs.com',
-  port=12688,
-  password='HN92Lbezme49w8AuWLmzPttQHQTWFSqP')
+POOL = redis.ConnectionPool(
+  host='redis-19973.c308.sa-east-1-1.ec2.cloud.redislabs.com',
+  port=19973,
+  password='a5RhKG6KysXOokImNYGnuhsCRSxAZXUI')
+r = redis.StrictRedis(connection_pool=POOL)
 
 from flask import Flask
 import time
@@ -85,7 +84,7 @@ def list_keys():
 @measure_execution_time
 def insert_data():
     data_gen = DataGenerator()
-    data_gen.generate_data(2000)
+    data_gen.generate_data(5000)
     
     for key, value in data_gen.data:
         r.set(key, value)
