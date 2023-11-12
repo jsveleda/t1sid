@@ -32,4 +32,9 @@ Grupo de 2 ou três alunos(as).
 * Stack
     * Python 3.10.12
     * Flask 3.0.0 
-    * Redis (data structure store) 7.2.
+    * Redis (data structure store) 7.2
+    * Locust.
+
+* Help
+    * Para iniciar o servidor Flask: python3 app.py
+    * Para iniciar o Locust: locust -f virtual_users.py
